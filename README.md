@@ -1,7 +1,7 @@
 Test with node.js
 =====================
 
-Install the jasmine-node plugin from https://github.com/mhevery/jasmine-node
+Install the jasmine-node plugin from jasmine-node spec/
 
 	npm install jasmine-node -g
 

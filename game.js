@@ -1,61 +1,49 @@
 exports = typeof window !== "undefined" && window !== null ? window : global;
 
 exports.Game = function() {
-    var players          = new Array();
-    var places           = new Array(6);
-    var purses           = new Array(6);
-    var inPenaltyBox     = new Array(6);
-
-    var popQuestions     = new Array();
-    var scienceQuestions = new Array();
-    var sportsQuestions  = new Array();
-    var rockQuestions    = new Array();
-
-    var currentPlayer    = 0;
+    var players = [];
+    var places = [6];
+    var purses = [6];
+    var inPenaltyBox = [6];
+    var popQuestions = [];
+    var scienceQuestions = [];
+    var sportsQuestions = [];
+    var rockQuestions = [];
+    var currentPlayer = 0;
     var isGettingOutOfPenaltyBox = false;
 
-    var didPlayerWin = function(){
+    var didPlayerWin = () => {
         return !(purses[currentPlayer] == 6)
     };
 
-    var currentCategory = function(){
-        if(places[currentPlayer] == 0)
+    var currentCategory = () => {
+        if(places[currentPlayer] == 0 || places[currentPlayer] == 4 || places[currentPlayer] == 8){
             return 'Pop';
-        if(places[currentPlayer] == 4)
-            return 'Pop';
-        if(places[currentPlayer] == 8)
-            return 'Pop';
-        if(places[currentPlayer] == 1)
+        } else if (places[currentPlayer] == 1 || places[currentPlayer] == 5 || places[currentPlayer] == 9){
             return 'Science';
-        if(places[currentPlayer] == 5)
-            return 'Science';
-        if(places[currentPlayer] == 9)
-            return 'Science';
-        if(places[currentPlayer] == 2)
-            return 'Sports';
-        if(places[currentPlayer] == 6)
-            return 'Sports';
-        if(places[currentPlayer] == 10)
-            return 'Sports';
-        return 'Rock';
+        } else if (places[currentPlayer] == 2 || places[currentPlayer] == 6 || places[currentPlayer] == 10){
+            return 'sports';
+        } else {
+            return 'Rock'
+        }
     };
 
-    this.createRockQuestion = function(index){
-        return "Rock Question "+index;
+    this.createRockQuestion = (index) => {
+        return "Rock Question "+ index;
     };
 
-    for(var i = 0; i < 50; i++){
-        popQuestions.push("Pop Question "+i);
-        scienceQuestions.push("Science Question "+i);
-        sportsQuestions.push("Sports Question "+i);
-        rockQuestions.push(this.createRockQuestion(i));
+    for(var question = 0; question < 50; question++){
+        popQuestions.push("Pop Question "+ question);
+        scienceQuestions.push("Science Question "+ question);
+        sportsQuestions.push("Sports Question "+ question);
+        rockQuestions.push(this.createRockQuestion(question));
     };
 
-    this.isPlayable = function(howManyPlayers){
+    this.isPlayable = (howManyPlayers) => {
         return howManyPlayers >= 2;
     };
 
-    this.add = function(playerName){
+    this.add = (playerName) => {
         players.push(playerName);
         places[this.howManyPlayers() - 1] = 0;
         purses[this.howManyPlayers() - 1] = 0;
@@ -67,12 +55,12 @@ exports.Game = function() {
         return true;
     };
 
-    this.howManyPlayers = function(){
+    this.howManyPlayers = () => {
         return players.length;
     };
 
 
-    var askQuestion = function(){
+    var askQuestion = () => {
         if(currentCategory() == 'Pop')
             console.log(popQuestions.shift());
         if(currentCategory() == 'Science')
@@ -83,7 +71,7 @@ exports.Game = function() {
             console.log(rockQuestions.shift());
     };
 
-    this.roll = function(roll){
+    this.roll = (roll) => {
         console.log(players[currentPlayer] + " is the current player");
         console.log("They have rolled a " + roll);
 
